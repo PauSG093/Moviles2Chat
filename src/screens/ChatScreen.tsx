@@ -1,13 +1,29 @@
+import { initializeApp } from 'firebase/app';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParams } from '../navigator/StackNavigator';
+import { getDatabase, ref, onValue, set } from 'firebase/Database';
 
 interface Message {
   id: string;
   text: string;
   isSent: boolean;
 }
+const firebaseConfig = {
+  apiKey: "AIzaSyDI0Q8-eJuJfC63L4teZvmD30Ptzi38dEU",
+  authDomain: "chat-7a851.firebaseapp.com",
+  projectId: "chat-7a851",
+  storageBucket: "chat-7a851.appspot.com",
+  messagingSenderId: "1065227566243",
+  appId: "1:1065227566243:web:6a21381bca5bfdc38f9316"
+};
+initializeApp(firebaseConfig);
+  return ( 
+    <Text>Base de datos</Text>
+    <Button
+      title='envio de datos'
+      onPress={() => envioDatos ()}
+    />
+  )
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -21,7 +37,7 @@ const ChatScreen = () => {
     const newMessage: Message = {
       id: Date.now().toString(),
       text: currentMessage,
-      isSent: true, // Para marcarlo como mensaje enviado
+      isSent: true, 
     };
 
     setMessages([...messages, newMessage]);
@@ -38,7 +54,7 @@ const ChatScreen = () => {
       <Text style={styles.messageText}>{item.text}</Text>
     </View>
   );
-
+  
   return (
     <View style={styles.container}>
       <FlatList
@@ -52,7 +68,7 @@ const ChatScreen = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Escribe un mensaje..."
+          placeholder="Mensaje"
           placeholderTextColor="#aaa"
           value={currentMessage}
           onChangeText={setCurrentMessage}
