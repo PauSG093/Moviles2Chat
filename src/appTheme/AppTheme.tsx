@@ -105,6 +105,13 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
 
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: '#ccc',
+  },
 
   //iconos
 
