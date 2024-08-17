@@ -5,7 +5,7 @@ import { RootStackParams } from '../navigator/StackNavigator';
 import { styles } from '../appTheme/AppTheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import ChatScreen from './ChatScreen';
 //nue 
 interface Props {
   handleSetValues?: (name: string, value: string) => void;   //prop función
@@ -32,7 +32,7 @@ const Portada = ( {actionIcon, handleSetValues} : Props) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
-    }, 3000);
+    }, 1000);
 
     // Limpia el temporizador 
     return () => clearTimeout(timer);
@@ -50,7 +50,7 @@ const Portada = ( {actionIcon, handleSetValues} : Props) => {
         if (userData.email === email && userData.password === password) {
           Alert.alert('Acceso exitoso', 'Bienvenido!');
           // Navegar a la pantalla del menú
-          navigation.navigate('Chat');
+          navigation.navigate('ChatScreen');
         } else {
           Alert.alert('Error', 'Correo o contraseña incorrectos');
         }
