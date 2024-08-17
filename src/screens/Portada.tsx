@@ -50,7 +50,7 @@ const Portada = ( {actionIcon, handleSetValues} : Props) => {
         if (userData.email === email && userData.password === password) {
           Alert.alert('Acceso exitoso', 'Bienvenido!');
           // Navegar a la pantalla del menú
-          navigation.navigate('Menu');
+          navigation.navigate('Chat');
         } else {
           Alert.alert('Error', 'Correo o contraseña incorrectos');
         }
@@ -90,13 +90,11 @@ const Portada = ( {actionIcon, handleSetValues} : Props) => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../assets/startup_screen.png')}
         style={styles.backgroundImage}
         resizeMode="cover"
       >
         {visible ? (
           <ImageBackground
-            source={require('../../assets/background_image.png')}
             style={styles.logo}
             resizeMode="cover"
           />

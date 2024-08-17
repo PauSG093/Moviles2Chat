@@ -72,7 +72,6 @@ const Registro = () => {
   return (
     <View style={styles.containerRegistro}>
             <ImageBackground
-        source={require('../../assets/icon_192.png')}
         style={styles.backgroundImageRegistro}
        // resizeMode="cover"
       ></ImageBackground>
