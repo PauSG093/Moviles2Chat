@@ -30,7 +30,7 @@ const StackNavigator = () => {
     </Stack.Navigator>
   );
 };
-      //<Stack.Screen name="Chat" component={Chat} />
+//      
 
 export default StackNavigator;
 
