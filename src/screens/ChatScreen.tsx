@@ -1,13 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { getDatabase, ref, onValue, set } from 'firebase/Database';
+import { getDatabase, ref, set } from 'firebase/database';
+import { StatusBar } from 'expo-status-bar';
 
 interface Message {
   id: string;
   text: string;
   isSent: boolean;
 }
+
 const firebaseConfig = {
   apiKey: "AIzaSyDI0Q8-eJuJfC63L4teZvmD30Ptzi38dEU",
   authDomain: "chat-7a851.firebaseapp.com",
@@ -16,18 +18,22 @@ const firebaseConfig = {
   messagingSenderId: "1065227566243",
   appId: "1:1065227566243:web:6a21381bca5bfdc38f9316"
 };
+
 initializeApp(firebaseConfig);
-  return ( 
-    <Text>Base de datos</Text>
-    <Button
-      title='envio de datos'
-      onPress={() => envioDatos ()}
-    />
-  )
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentMessage, setCurrentMessage] = useState('');
+
+  const envioDatos = (mensaje: string): void => {
+    const db = getDatabase();
+    const reference = ref(db, 'Mensajes/' + Date.now());
+    set(reference, {
+      text: mensaje,
+      isSent: true,
+      timestamp: Date.now(),
+    });
+  };
 
   const handleSend = () => {
     if (currentMessage.trim().length === 0) {
@@ -37,11 +43,12 @@ const ChatScreen = () => {
     const newMessage: Message = {
       id: Date.now().toString(),
       text: currentMessage,
-      isSent: true, 
+      isSent: true,
     };
 
     setMessages([...messages, newMessage]);
-    setCurrentMessage('');
+    envioDatos(currentMessage); // Enviar el mensaje a Firebase
+    setCurrentMessage(''); // Limpiar el campo de texto
   };
 
   const renderMessage = ({ item }: { item: Message }) => (
@@ -54,7 +61,7 @@ const ChatScreen = () => {
       <Text style={styles.messageText}>{item.text}</Text>
     </View>
   );
-  
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -77,6 +84,7 @@ const ChatScreen = () => {
           <Text style={styles.sendButtonText}>Enviar</Text>
         </TouchableOpacity>
       </View>
+      <StatusBar style="auto" />
     </View>
   );
 };
@@ -112,8 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    borderTopWidth: 1,
-    borderColor: '#ccc',
+    // Eliminado borderTopWidth para quitar la línea divisoria
   },
   input: {
     flex: 1,
@@ -127,7 +134,7 @@ const styles = StyleSheet.create({
   sendButton: {
     marginLeft: 10,
     backgroundColor: '#ff6347',
-    borderRadius: 20,
+    borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
