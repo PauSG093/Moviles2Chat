@@ -7,16 +7,17 @@ import { StatusBar } from 'expo-status-bar';
 interface Message {
   id: string;
   text: string;
-  isSent: boolean;
+  timestamp: number;
 }
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDI0Q8-eJuJfC63L4teZvmD30Ptzi38dEU",
-  authDomain: "chat-7a851.firebaseapp.com",
-  projectId: "chat-7a851",
-  storageBucket: "chat-7a851.appspot.com",
-  messagingSenderId: "1065227566243",
-  appId: "1:1065227566243:web:6a21381bca5bfdc38f9316"
+  apiKey: "AIzaSyBXgtCiu_sW94evdyNFEYTHfVdScctk3Ik",
+  authDomain: "prmtest-708b1.firebaseapp.com",
+  databaseURL: "https://prmtest-708b1-default-rtdb.firebaseio.com",
+  projectId: "prmtest-708b1",
+  storageBucket: "prmtest-708b1.appspot.com",
+  messagingSenderId: "45823036154",
+  appId: "1:45823036154:web:98540ccd88cb7b97d19743"
 };
 
 initializeApp(firebaseConfig);
@@ -30,7 +31,6 @@ const ChatScreen = () => {
     const reference = ref(db, 'Mensajes/' + Date.now());
     set(reference, {
       text: mensaje,
-      isSent: true,
       timestamp: Date.now(),
     });
   };
@@ -43,19 +43,19 @@ const ChatScreen = () => {
     const newMessage: Message = {
       id: Date.now().toString(),
       text: currentMessage,
-      isSent: true,
+      timestamp: Date.now(),
     };
 
     setMessages([...messages, newMessage]);
-    envioDatos(currentMessage); // Enviar el mensaje a Firebase
-    setCurrentMessage(''); // Limpiar el campo de texto
+    envioDatos(currentMessage); 
+    setCurrentMessage(''); 
   };
 
   const renderMessage = ({ item }: { item: Message }) => (
     <View
       style={[
         styles.messageContainer,
-        item.isSent ? styles.sentMessage : styles.receivedMessage,
+        item.timestamp % 2 === 0 ? styles.sentMessage : styles.receivedMessage,
       ]}
     >
       <Text style={styles.messageText}>{item.text}</Text>
@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    // Eliminado borderTopWidth para quitar la línea divisoria
   },
   input: {
     flex: 1,
